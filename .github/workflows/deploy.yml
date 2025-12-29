@@ -21,6 +21,3 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Verify application starts
-        run: timeout 10s npm start || true
