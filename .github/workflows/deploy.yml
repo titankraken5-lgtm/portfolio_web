@@ -1,21 +1,25 @@
-name: CI
+name: Deploy & Share
 
-on: [push, pull_request]
+on: [push, workflow_dispatch]
 
 jobs:
-  test:
-    runs-on: ubuntu-22.04
+  deploy:
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '20'
 
-      - name: Install
+      - name: Install dependencies
         run: npm install
 
-      - name: Verify
-        run: node --version
+      - name: Start server with localtunnel
+        run: |
+          chmod +x start.sh
+          ./start.sh &
+          sleep 10
+        timeout-minutes: 5
